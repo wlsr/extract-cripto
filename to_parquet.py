@@ -13,6 +13,6 @@ df = pd.read_csv(OUTPUT_FILE)
 parquet_file = os.path.join(DATA_DIR, "binance_full_crypto_prices.parquet")
 
 # Guardar el DataFrame como Parquet
-df.to_parquet(parquet_file, engine="fastparquet", index=False)
+df.to_parquet(parquet_file, engine="fastparquet", index=False, compression='SNAPPY')
 
 print(f"Archivo convertido y guardado como {parquet_file}")
