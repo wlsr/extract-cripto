@@ -19,7 +19,7 @@ if os.path.exists(file_path):
     try:
         # Cargar el archivo al bucket de S3
         s3_client.upload_file(file_path, bucket_name, s3_key)
-        print(f"File {file_name} successfully uploaded to {bucket_name}/{s3_key}")
+        print(f"File {file_name} SUCCESSFULLY uploaded to: {bucket_name}/{s3_key}")
     except NoCredentialsError:
         print("Credentials not available.")
     except Exception as e:

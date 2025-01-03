@@ -13,27 +13,27 @@ table_name = "crypto_cleaned"
 query_output_location = f"s3://{bucket_name}/results/"
 delete_query = f"DROP TABLE IF EXISTS {table_name};"
 create_query = f"""
-CREATE TABLE {table_name}
-WITH (
-    format = 'PARQUET',
-    external_location = 's3://{bucket_name}/{prefix}'
-) AS 
-SELECT 
-    from_unixtime(close_time / 1000) AS close_time_converted,
-    CAST(ROUND(open, 2) AS DECIMAL(20, 2)) AS open,
-    CAST(ROUND(high, 2) AS DECIMAL(20, 2)) AS high,
-    CAST(ROUND(close, 2) AS DECIMAL(20, 2)) AS close,
-    CAST(ROUND(volume, 2) AS DECIMAL(20, 2)) AS volume,
-    CAST(ROUND(quote_asset_volume, 2) AS DECIMAL(20, 2)) AS quote_asset_volume,
-    num_trades,
-    CAST(ROUND(taker_buy_base_asset, 2) AS DECIMAL(20, 2)) AS taker_buy_base_asset,
-    CAST(ROUND(taker_buy_quote_asset, 2) AS DECIMAL(20, 2)) AS taker_buy_quote_asset,
-    symbol
-FROM
-    crypto_folder
-ORDER BY 
-    close_time_converted;
-"""
+    CREATE TABLE {table_name}
+    WITH (
+        format = 'PARQUET',
+        external_location = 's3://{bucket_name}/{prefix}'
+    ) AS 
+    SELECT 
+        from_unixtime(close_time / 1000) AS close_time_converted,
+        CAST(ROUND(open, 2) AS DECIMAL(20, 2)) AS open,
+        CAST(ROUND(high, 2) AS DECIMAL(20, 2)) AS high,
+        CAST(ROUND(close, 2) AS DECIMAL(20, 2)) AS close,
+        CAST(ROUND(volume, 2) AS DECIMAL(20, 2)) AS volume,
+        CAST(ROUND(quote_asset_volume, 2) AS DECIMAL(20, 2)) AS quote_asset_volume,
+        num_trades,
+        CAST(ROUND(taker_buy_base_asset, 2) AS DECIMAL(20, 2)) AS taker_buy_base_asset,
+        CAST(ROUND(taker_buy_quote_asset, 2) AS DECIMAL(20, 2)) AS taker_buy_quote_asset,
+        symbol
+    FROM
+        crypto_folder
+    ORDER BY 
+        close_time_converted;
+    """
 
 # Initialize Athena client
 athena_client = boto3.client('athena')
